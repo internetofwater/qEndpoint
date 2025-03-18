@@ -1,0 +1,17 @@
+FROM qacompany/qendpoint
+
+WORKDIR /app
+
+#COPY wikidata-prefixes.sparql .
+COPY loadDataFrinkRenci.sh .
+RUN chmod +x loadDataFrinkRenci.sh
+
+RUN apt-get install rclone
+
+#ARG HDT_BASE=wikidata_truthy
+#ENV HDT_BASE ${HDT_BASE}
+
+EXPOSE 1234
+ENTRYPOINT ["/usr/bin/env"]
+
+CMD ["/bin/sh", "-c", "./loadDataFrinkRenci.sh $1 $2  && java -jar -Xmx${MEM_SIZE} qendpoint.jar"]

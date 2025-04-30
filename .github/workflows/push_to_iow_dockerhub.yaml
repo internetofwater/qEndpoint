@@ -45,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          file: ${{ env.GITHUB_WORKSPACE }}/scripts/Dockerfile-frink-renci
+          file: scripts/Dockerfile-frink-renci
           platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

@@ -42,12 +42,7 @@ fi
 
 
 
-#if [ -f "$PREFIXES_FILE" ]; then
-#    echo "$PREFIXES_FILE exists."
-#else
-#    mkdir -p qendpoint
-#    cp wikidata-prefixes.sparql prefixes.sparql
-#fi
+cp -v iow-prefixes.sparql $PREFIXES_FILE 
 
 #HDT="$CDN/$HDT_BASE.hdt"
 

@@ -2,7 +2,7 @@ FROM qacompany/qendpoint
 
 WORKDIR /app
 
-#COPY wikidata-prefixes.sparql .
+COPY iow-prefixes.sparql .
 COPY loadDataFrinkRenci.sh .
 RUN chmod +x loadDataFrinkRenci.sh
 

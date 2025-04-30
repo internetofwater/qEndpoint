@@ -1,0 +1,17 @@
+PREFIX : <https://schema.org/> 
+PREFIX xsd: <https://www.w3.org/TR/xmlschema-2/#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX dcat: <https://www.w3.org/ns/dcat#>
+PREFIX freq: <http://purl.org/cld/freq/>
+PREFIX qudt: <http://qudt.org/schema/qudt/>
+PREFIX qudt-units: <http://qudt.org/vocab/unit/>
+PREFIX qudt-quantkinds: <http://qudt.org/vocab/quantitykind/>
+PREFIX gsp: <http://www.opengis.net/ont/geosparql#>
+PREFIX locType: <http://vocabulary.odm2.org/sitetype>
+PREFIX odm2var: <http://vocabulary.odm2.org/variablename/>
+PREFIX odm2varType:<http://vocabulary.odm2.org/variabletype/>
+PREFIX hyf: <https://www.opengis.net/def/schema/hy_features/hyf/>
+PREFIX skos: <https://www.opengis.net/def/schema/hy_features/hyf/HY_HydroLocationType>
+PREFIX ssn: <http://www.w3.org/ns/ssn/>
+PREFIX ssn-system: <http://www.w3.org/ns/ssn/systems/>

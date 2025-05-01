@@ -195,7 +195,7 @@ jobs:
       - build
     environment:
       name: qendpoint docker image
-      url: https://hub.docker.com/r/qacompany/qendpoint/tags
+      url: https://hub.docker.com/r/internetofwater/qendpoint/tags
     runs-on: ubuntu-latest
     if: ${{ !inputs.publish_only_maven }}
     steps:
@@ -220,21 +220,21 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: qacompany/qendpoint
+          images: internetofwater/qendpoint
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
           file: scripts/Dockerfile
           context: scripts
           push: true
-          tags: "qacompany/qendpoint:latest,qacompany/qendpoint:${{ needs.build.outputs.version }}"
+          tags: "internetofwater/qendpoint:latest,internetofwater/qendpoint:${{ needs.build.outputs.version }}"
           platforms: linux/amd64,linux/arm64
           labels: ${{ steps.meta.outputs.labels }}
   push_to_docker_hub_wikidata:
     name: Push to Docker Hub wikidata image
     environment:
       name: qendpoint-wikidata docker image
-      url: https://hub.docker.com/r/qacompany/qendpoint-wikidata/tags
+      url: https://hub.docker.com/r/internetofwater/qendpoint-wikidata/tags
     needs:
       - build
       - push_to_docker_hub
@@ -256,14 +256,14 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: qacompany/qendpoint
+          images: internetofwater/qendpoint-wikidata
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
           file: scripts/Dockerfile-wikidata
           context: scripts
           push: true
-          tags: "qacompany/qendpoint-wikidata:latest,qacompany/qendpoint-wikidata:${{ needs.build.outputs.version }}"
+          tags: "internetofwater/qendpoint-wikidata:latest,internetofwater/qendpoint-wikidata:${{ needs.build.outputs.version }}"
           platforms: linux/amd64,linux/arm64
           labels: ${{ steps.meta.outputs.labels }}
   create_release:

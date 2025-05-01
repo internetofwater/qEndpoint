@@ -51,7 +51,7 @@ HDT="lakefs:$FRINK_RENCI_REPO_NAME/$FRINK_RENCI_BRANCH_NAME/hdt/graph.hdt"
 
 echo "HDT path at $HDT"
 
-if [ -f "$INDEX_HDT" ]; then
+if [ -f "$INDEX_HDT_DIR/$INDEX_HDT" ]; then
     echo "$INDEX_HDT exists."
 else
     echo "starting..."
@@ -65,13 +65,13 @@ else
 
     
     #wget --progress=bar:force:noscroll -c --retry-connrefused --tries 0 --timeout 10 -O $INDEX_HDT.tmp $HDT || exit 1
-    rclone copy -vv --progress --multi-thread-streams 16 $HDT $INDEX_HDT_DIR || exit 1
+    rclone copy --progress --multi-thread-streams 8 $HDT $INDEX_HDT_DIR || exit 1
 
     mv $INDEX_HDT_DIR/graph.hdt $INDEX_HDT_DIR/$INDEX_HDT || exit 1
 
 fi
 
-if [ -f "$INDEX_HDT_COINDEX" ]; then
+if [ -f "$INDEX_HDT_DIR/$INDEX_HDT_COINDEX" ]; then
     echo "$INDEX_HDT_COINDEX exists."
 else
     echo "Downloading the HDT co-index $HDT.$INDEX_SUFFIX into $INDEX_HDT_COINDEX..."
@@ -81,7 +81,7 @@ else
     fi
 
     #wget --progress=bar:force:noscroll -c --retry-connrefused --tries 0 --timeout 10 -O $INDEX_HDT_COINDEX.tmp "$HDT.index.v1-1"
-    rclone copy -vv --progress --multi-thread-streams 16 $HDT.$INDEX_SUFFIX $INDEX_HDT_DIR  || exit 1
+    rclone copy --progress --multi-thread-streams 8 $HDT.$INDEX_SUFFIX $INDEX_HDT_DIR  || exit 1
 
     mv $INDEX_HDT_DIR/graph.hdt.$INDEX_SUFFIX $INDEX_HDT_DIR/$INDEX_HDT_COINDEX || exit 1
 

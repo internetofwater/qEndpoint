@@ -1,4 +1,4 @@
-FROM qacompany/qendpoint
+FROM internetofwater/qendpoint
 
 WORKDIR /app
 

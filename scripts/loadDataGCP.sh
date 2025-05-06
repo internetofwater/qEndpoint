@@ -9,6 +9,6 @@ PREFIXES_FILE="$QEP_LOCATION/prefixes.sparql"
 export RCLONE_CONFIG_GCS_TYPE="google cloud storage"
 export RCLONE_CONFIG_GCS_ENV_AUTH=true
 
-HDTSRC=${HDT:-"gcs:geoconnex-graph"}
+HDTSRC=${HDT:-"gs://geoconnex-graph/*"}
 
-rclone copy -vv --fast-list --progress --buffer-size=128M --use-mmap $HDTSRC $INDEX_HDT_DIR || exit 1
+gsutil -m cp $HDTSRC $INDEX_HDT_DIR || exit 1

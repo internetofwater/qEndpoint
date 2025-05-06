@@ -23,6 +23,8 @@ export RCLONE_CONFIG_LAKEFS_TYPE=s3
 export RCLONE_CONFIG_LAKEFS_PROVIDER=Other
 export RCLONE_CONFIG_LAKEFS_ENDPOINT=https://frink-lakefs.apps.renci.org/
 
+export RCLONE_CONFIG_GCS_TYPE="google cloud storage"
+export RCLONE_CONFIG_GCS_ENV_AUTH=true
 
 if [ -z $FRINK_RENCI_REPO_NAME ]; then
   echo "FRINK_RENCI_REPO_NAME not set!" && exit 1
@@ -48,6 +50,7 @@ cp -v iow-prefixes.sparql $PREFIXES_FILE
 
 # CONSTRUCT FRINK/RENCI PATH NAMING CONVENTION TO THE PRODUCED HDT GRAPH ARTIFACT
 HDT="lakefs:$FRINK_RENCI_REPO_NAME/$FRINK_RENCI_BRANCH_NAME/hdt/graph.hdt"
+HDTDEST=${DEST:-"gcs:geoconnex-graph"}
 
 echo "HDT path at $HDT"
 
@@ -55,7 +58,7 @@ if [ -n "$INDEX_HDT_DIR" ] && [ -f "$INDEX_HDT_DIR/$INDEX_HDT" ]; then
     echo "$INDEX_HDT exists."
 else
     echo "starting..."
-    echo "Downloading the HDT index from $HDT to $INDEX_HDT..."
+    echo "Downloading the HDT index from $HDT to $HDTDEST..."
     mkdir -p qendpoint/hdt-store || exit 
 
 
@@ -65,7 +68,7 @@ else
 
     
     #wget --progress=bar:force:noscroll -c --retry-connrefused --tries 0 --timeout 10 -O $INDEX_HDT.tmp $HDT || exit 1
-    rclone copy --progress -vv $HDT $INDEX_HDT_DIR || exit 1
+    rclone copy -vv --progress $HDT $HDTDEST || exit 1
 
     mv $INDEX_HDT_DIR/graph.hdt $INDEX_HDT_DIR/$INDEX_HDT || exit 1
 
@@ -74,14 +77,14 @@ fi
 if [ -n "$INDEX_HDT_DIR" ] && [ -f "$INDEX_HDT_DIR/$INDEX_HDT_COINDEX" ]; then
     echo "$INDEX_HDT_COINDEX exists."
 else
-    echo "Downloading the HDT co-index $HDT.$INDEX_SUFFIX into $INDEX_HDT_COINDEX..."
+    echo "Downloading the HDT co-index $HDT.$INDEX_SUFFIX into $HDTDEST..."
 
     if [ -f "$INDEX_HDT_COINDEX.tmp" ]; then
         rm "$INDEX_HDT_COINDEX.tmp"
     fi
 
     #wget --progress=bar:force:noscroll -c --retry-connrefused --tries 0 --timeout 10 -O $INDEX_HDT_COINDEX.tmp "$HDT.index.v1-1"
-    rclone copy --progress $HDT.$INDEX_SUFFIX $INDEX_HDT_DIR  || exit 1
+    rclone copy -vv --progress $HDT.$INDEX_SUFFIX $HDTDEST || exit 1
 
     mv $INDEX_HDT_DIR/graph.hdt.$INDEX_SUFFIX $INDEX_HDT_DIR/$INDEX_HDT_COINDEX || exit 1
 

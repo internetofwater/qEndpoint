@@ -5,6 +5,8 @@ WORKDIR /app
 COPY iow-prefixes.sparql .
 COPY loadDataFrinkRenci.sh .
 RUN chmod +x loadDataFrinkRenci.sh
+COPY loadDataGCP.sh .
+RUN chmod +x loadDataGCP.sh
 
 RUN apt-get install rclone
 
@@ -14,4 +16,4 @@ RUN apt-get install rclone
 EXPOSE 1234
 ENTRYPOINT ["/usr/bin/env"]
 
-CMD ["/bin/sh", "-c", "sleep 10 && /app/loadDataFrinkRenci.sh && sleep 60 && java -jar -Xmx${MEM_SIZE} qendpoint.jar"]
+CMD ["/bin/sh", "-c", "/app/loadDataGCP.sh && java -jar -Xmx${MEM_SIZE} qendpoint.jar"]

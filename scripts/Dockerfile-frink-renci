@@ -2,31 +2,12 @@ FROM internetofwater/qendpoint
 
 WORKDIR /app
 
-COPY iow-prefixes.sparql .
-COPY loadDataFrinkRenci.sh .
-RUN chmod +x loadDataFrinkRenci.sh
-COPY loadDataGCP.sh .
-RUN chmod +x loadDataGCP.sh
+COPY iow-prefixes.sparql /app/
 
-RUN apt-get update && apt-get install -y \
-    curl \
-    gnupg \
-    ca-certificates \
-    apt-transport-https \
-    gcc \
-    python3-dev \
-    python3-setuptools \
-    && pip3 install crcmod \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg && apt-get update -y && apt-get install google-cloud-cli -y
-    
-RUN apt-get install rclone
-
-#ARG HDT_BASE=wikidata_truthy
-#ENV HDT_BASE ${HDT_BASE}
+ADD https://storage.googleapis.com/geoconnex-graph/index_dev.hdt /app/qendpoint/index-hdt/index_dev.hdt
+ADD https://storage.googleapis.com/geoconnex-graph/index_dev.hdt.index.v1-1 /app/qendpoint/index-hdt/index_dev.hdt.index.v1-1
 
 EXPOSE 1234
 ENTRYPOINT ["/usr/bin/env"]
 
-CMD ["/bin/sh", "-c", "/app/loadDataGCP.sh && java -jar -Xmx${MEM_SIZE} qendpoint.jar"]
+CMD ["/bin/sh", "-c", "java -jar -Xmx${MEM_SIZE} qendpoint.jar"]

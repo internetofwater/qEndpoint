@@ -2,12 +2,16 @@ FROM internetofwater/qendpoint
 
 WORKDIR /app
 
-COPY iow-prefixes.sparql /app/
+COPY iow-prefixes.sparql /app/qendpoint/prefixes.sparql
 
-ADD https://storage.googleapis.com/geoconnex-graph/index_dev.hdt /app/qendpoint/index-hdt/index_dev.hdt
-ADD https://storage.googleapis.com/geoconnex-graph/index_dev.hdt.index.v1-1 /app/qendpoint/index-hdt/index_dev.hdt.index.v1-1
+ADD https://storage.googleapis.com/geoconnex-graph/index_dev.hdt /app/qendpoint/hdt-store/index_dev.hdt
+ADD https://storage.googleapis.com/geoconnex-graph/index_dev.hdt.index.v1-1 /app/qendpoint/hdt-store/index_dev.hdt.index.v1-1
 
 EXPOSE 1234
+
+ARG MEM_SIZE=16G
+ENV MEM_SIZE=${MEM_SIZE}
+
 ENTRYPOINT ["/usr/bin/env"]
 
 CMD ["/bin/sh", "-c", "java -jar -Xmx${MEM_SIZE} qendpoint.jar"]
